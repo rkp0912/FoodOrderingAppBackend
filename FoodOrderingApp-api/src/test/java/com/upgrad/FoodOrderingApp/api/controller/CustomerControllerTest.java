@@ -261,8 +261,8 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("code").value("ATHR-003"));
         verify(mockCustomerService, times(1)).logout("auth");
     }
-
-    // ----------------------------- PUT /customer --------------------------------
+//
+//    // ----------------------------- PUT /customer --------------------------------
 
     //This test case passes when you are able to update customer details successfully.
     @Test
