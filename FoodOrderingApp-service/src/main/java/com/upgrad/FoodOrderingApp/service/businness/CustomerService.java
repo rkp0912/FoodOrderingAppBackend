@@ -136,7 +136,6 @@ public class CustomerService {
         if(customerAuthEntity.getExpiresAt().isBefore(ZonedDateTime.now())){
             throw new AuthorizationFailedException("ATHR-003","Your session is expired. Log in again to access this endpoint.");
         }
-
         final ZonedDateTime now = ZonedDateTime.now();
         customerAuthEntity.setLogoutAt(now);
         customerAuthDao.updatedCustomerAuth(customerAuthEntity);
@@ -144,28 +143,38 @@ public class CustomerService {
     }
 
     /**
-     *GetUser
+     *GetCustomer
      * @param accessToken
      * @return CustomerEntity
      * @throws AuthorizationFailedException
      */
     public CustomerEntity getCustomer(final String accessToken)throws AuthorizationFailedException{
-        CustomerAuthEntity customerAuthEntity = customerAuthDao.getCustomerAuthByAccessToken(accessToken);
-        if(customerAuthEntity == null){
-            throw new  AuthorizationFailedException("ATHR-001", "Customer is not Logged in.");
+        CustomerAuthEntity customerAuthEntity =
+                customerAuthDao.getCustomerAuthByAccessToken(accessToken);
+        if (customerAuthEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "Customer is not Logged in.");
+        }
+        if (customerAuthEntity.getLogoutAt() != null) {
+            throw new AuthorizationFailedException(
+                    "ATHR-002", "Customer is logged out. Log in again to access this endpoint.");
+        }
+        if (customerAuthEntity.getExpiresAt().isBefore(ZonedDateTime.now())) {
+            throw new AuthorizationFailedException(
+                    "ATHR-003", "Your session is expired. Log in again to access this endpoint.");
         }
 
-        if(customerAuthEntity.getLogoutAt() != null){
-            throw  new AuthorizationFailedException("ATHR-002", "Customer is logged out. Log in again to access this endpoint.");
-        }
-
-        if(customerAuthEntity.getExpiresAt().isBefore(ZonedDateTime.now())){
-            throw new AuthorizationFailedException("ATHR-003", "Your session is expired. Log in again to access this endpoint.");
-        }
-
-        return  customerAuthEntity.getCustomer();
-
+        return customerAuthEntity.getCustomer();
     }
+
+    public CustomerAuthEntity getCustomerAuth(final String accessToken)throws AuthorizationFailedException{
+        CustomerAuthEntity customerAuthEntity =
+                customerAuthDao.getCustomerAuthByAccessToken(accessToken);
+        return customerAuthEntity;
+    }
+
+
+
+
 
     /**
      * Update Customer
