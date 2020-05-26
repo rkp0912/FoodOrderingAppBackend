@@ -64,7 +64,7 @@ public class RestExceptionHandler {
     }
 
     /**
-     *
+     *Handles Save Address Exception
      * @param exc
      * @param request
      * @return
@@ -77,13 +77,65 @@ public class RestExceptionHandler {
     }
 
     /**
-     *
+     *Handles Address Not found exception
      * @param exc
      * @param request
      * @return
      */
     @ExceptionHandler(AddressNotFoundException.class)
     public ResponseEntity<ErrorResponse> addressNotFoundException(AddressNotFoundException exc, WebRequest request){
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code((exc.getCode())).message(exc.getErrorMessage()), HttpStatus.NOT_FOUND
+        );
+    }
+
+    /**
+     * Handles Coupon not found exception
+     * @param exc
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(CouponNotFoundException.class)
+    public ResponseEntity<ErrorResponse> couponNotFoundException(CouponNotFoundException exc, WebRequest request){
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code((exc.getCode())).message(exc.getErrorMessage()), HttpStatus.NOT_FOUND
+        );
+    }
+
+    /**
+     * Handles payment method not found exception
+     * @param exc
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(PaymentMethodNotFoundException.class)
+    public ResponseEntity<ErrorResponse> paymentMethodNotFoundException(PaymentMethodNotFoundException exc, WebRequest request){
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code((exc.getCode())).message(exc.getErrorMessage()), HttpStatus.NOT_FOUND
+        );
+    }
+
+    /**
+     * Handles restaurant not found exception
+     * @param exc
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(RestaurantNotFoundException.class)
+    public ResponseEntity<ErrorResponse> restaurantNotFoundException(RestaurantNotFoundException exc, WebRequest request){
+        return new ResponseEntity<ErrorResponse>(
+                new ErrorResponse().code((exc.getCode())).message(exc.getErrorMessage()), HttpStatus.NOT_FOUND
+        );
+    }
+
+    /**
+     * Handles item not found exception
+     * @param exc
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ErrorResponse> itemNotFoundException(ItemNotFoundException exc, WebRequest request){
         return new ResponseEntity<ErrorResponse>(
                 new ErrorResponse().code((exc.getCode())).message(exc.getErrorMessage()), HttpStatus.NOT_FOUND
         );

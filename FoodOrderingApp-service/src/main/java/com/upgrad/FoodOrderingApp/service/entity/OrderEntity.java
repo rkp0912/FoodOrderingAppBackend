@@ -4,11 +4,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "orders")
-public class OrdersEntity implements Serializable {
+@NamedQueries({
+        @NamedQuery(name = "getAllOrders" , query = "select o from OrderEntity o where o.customer.uuid =:uuid  order by o.date desc")
+})
+public class OrderEntity implements Serializable {
 
     @Id
     @Column(name = "ID")
@@ -22,7 +27,7 @@ public class OrdersEntity implements Serializable {
 
     @Column(name = "bill")
     @NotNull
-    private Float bill;
+    private Double bill;
 
     @ManyToOne
     @JoinColumn(name = "coupon_id")
@@ -30,11 +35,11 @@ public class OrdersEntity implements Serializable {
 
     @Column(name = "discount")
     @NotNull
-    private Float discount;
+    private Double discount;
 
     @Column(name = "date")
     @NotNull
-    private LocalDate date;
+    private Date date;
 
     @OneToOne
     @JoinColumn(name = "payment_id")
@@ -52,6 +57,21 @@ public class OrdersEntity implements Serializable {
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
 
+    public OrderEntity() {
+    }
+
+    public OrderEntity(@NotNull @Size(max = 200) String uuid, @NotNull Double bill, CouponEntity coupon, @NotNull Double discount, @NotNull Date date, PaymentEntity payment, CustomerEntity customer, AddressEntity address, RestaurantEntity restaurant) {
+        this.uuid = uuid;
+        this.bill = bill;
+        this.coupon = coupon;
+        this.discount = discount;
+        this.date = date;
+        this.payment = payment;
+        this.customer = customer;
+        this.address = address;
+        this.restaurant = restaurant;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -68,11 +88,11 @@ public class OrdersEntity implements Serializable {
         this.uuid = uuid;
     }
 
-    public Float getBill() {
+    public Double getBill() {
         return bill;
     }
 
-    public void setBill(Float bill) {
+    public void setBill(Double bill) {
         this.bill = bill;
     }
 
@@ -84,19 +104,19 @@ public class OrdersEntity implements Serializable {
         this.coupon = coupon;
     }
 
-    public Float getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Float discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

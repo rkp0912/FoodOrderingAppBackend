@@ -4,9 +4,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name="restaurant")
+@NamedQueries({
+        @NamedQuery(name = "getRestaurantByUUID" , query = "select r from RestaurantEntity r where r.uuid =:uuid")
+})
 public class RestaurantEntity implements Serializable {
 
     @Id
@@ -31,15 +35,19 @@ public class RestaurantEntity implements Serializable {
 
     @Column(name = "customer_rating")
     @NotNull
-    private Float customerRating;
+    private Double customerRating;
 
     @Column(name = "average_price_for_two")
     @NotNull
-    private Integer averagePriceForTwo;
+    private Integer avgPrice;
+
+    @Column(name = "number_of_customers_rated")
+    @NotNull
+    private Integer numberCustomersRated;
 
     @OneToOne
     @JoinColumn(name = "address_id")
-    private AddressEntity addressEntity;
+    private AddressEntity address;
 
     public Integer getId() {
         return id;
@@ -73,27 +81,36 @@ public class RestaurantEntity implements Serializable {
         this.photoUrl = photoUrl;
     }
 
-    public Float getCustomerRating() {
+    public Double getCustomerRating() {
         return customerRating;
     }
 
-    public void setCustomerRating(Float customerRating) {
+    public void setCustomerRating(Double customerRating) {
         this.customerRating = customerRating;
     }
 
-    public Integer getAveragePriceForTwo() {
-        return averagePriceForTwo;
+    public AddressEntity getAddress() {
+        return address;
     }
 
-    public void setAveragePriceForTwo(Integer averagePriceForTwo) {
-        this.averagePriceForTwo = averagePriceForTwo;
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 
-    public AddressEntity getAddressEntity() {
-        return addressEntity;
+    public Integer getAvgPrice() {
+        return avgPrice;
     }
 
-    public void setAddressEntity(AddressEntity addressEntity) {
-        this.addressEntity = addressEntity;
+    public void setAvgPrice(Integer avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
+
+    public Integer getNumberCustomersRated() {
+        return numberCustomersRated;
+    }
+
+    public void setNumberCustomersRated(Integer numberCustomersRated) {
+        this.numberCustomersRated = numberCustomersRated;
     }
 }
