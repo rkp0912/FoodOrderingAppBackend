@@ -1,5 +1,8 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,6 +28,7 @@ public class CustomerAuthEntity implements Serializable {
     private String uuid;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name="customer_id")
     private CustomerEntity customer;
 

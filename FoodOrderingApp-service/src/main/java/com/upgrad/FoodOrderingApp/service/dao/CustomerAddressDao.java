@@ -14,11 +14,21 @@ public class CustomerAddressDao {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * creates the entity, contains relation with customer id and his/her address.
+     * @param customerAddressEntity
+     * @return CustomerAddressEntity
+     */
     public CustomerAddressEntity saveCustomerAddress(CustomerAddressEntity customerAddressEntity){
         entityManager.persist(customerAddressEntity);
         return customerAddressEntity;
     }
 
+    /**
+     * Fetches the list of addresses of a customer
+     * @param customerId
+     * @return List<CustomerAddressEntity>
+     */
     public List<CustomerAddressEntity> getCustomerAddressByCustomerId(Integer customerId){
         try {
             return entityManager.createNamedQuery("customerAddressByCustomerId", CustomerAddressEntity.class).setParameter("customerId", customerId)
@@ -28,6 +38,11 @@ public class CustomerAddressDao {
         }
     }
 
+    /**
+     * Fetches the customer address entity by addressId
+     * @param addressId
+     * @return
+     */
     public CustomerAddressEntity getCustomerAddressByAddressId(Integer addressId){
         try {
             return entityManager.createNamedQuery("customerAddressByAddressId", CustomerAddressEntity.class).setParameter("addressId", addressId)
@@ -37,6 +52,11 @@ public class CustomerAddressDao {
         }
     }
 
+    /**
+     * Updates the existing customer address entity in the table
+     * @param customerAddressEntity
+     * @return
+     */
     public CustomerAddressEntity updateCustomerAddress(CustomerAddressEntity customerAddressEntity){
         entityManager.merge(customerAddressEntity);
         return customerAddressEntity;

@@ -16,7 +16,7 @@ public class StateDao {
     /**
      * Creates new state in the state table
      * @param stateEntity
-     * @return
+     * @return StateEntity
      */
     public StateEntity saveState(StateEntity stateEntity){
         entityManager.persist(stateEntity);
@@ -26,7 +26,7 @@ public class StateDao {
     /**
      * Fetches the state by UUID
      * @param uuid
-     * @return
+     * @return StateEntity
      */
     public StateEntity getStateByUUID(String uuid){
         try{
@@ -39,7 +39,7 @@ public class StateDao {
 
     /**
      * Fetches all the states in the states table
-     * @return
+     * @return List<StateEntity>
      */
     public List<StateEntity> getAllStates(){
         try{
@@ -53,7 +53,7 @@ public class StateDao {
     /**
      * Updates an existing entity in the table
      * @param stateEntity
-     * @return
+     * @return StateEntity
      */
     public StateEntity updateState(StateEntity stateEntity){
         entityManager.merge(stateEntity);

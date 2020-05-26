@@ -14,12 +14,21 @@ public class CustomerAuthDao {
     @PersistenceContext
     EntityManager entityManager;
 
+    /**
+     * Creates new customerAuth entity in the table. Contains session information of the logged-in user.
+     * @param customerAuth
+     * @return
+     */
     public CustomerAuthEntity login(CustomerAuthEntity customerAuth){
         entityManager.persist(customerAuth);
         return customerAuth;
     }
 
-
+    /**
+     * Fetches the CustomerAuth information of a customer
+     * @param customer
+     * @return CustomerAuthEntity
+     */
     public CustomerAuthEntity getCustomerAuthByCustomer(CustomerEntity customer){
         try {
             return entityManager.createNamedQuery("customerAuthByCustomerId", CustomerAuthEntity.class)
@@ -30,6 +39,11 @@ public class CustomerAuthDao {
         }
     }
 
+    /**
+     * Fetches the CustomerAuth entity using accessToken.
+     * @param accessToken
+     * @return
+     */
     public CustomerAuthEntity getCustomerAuthByAccessToken(String accessToken){
         try {
             return entityManager.createNamedQuery("customerAuthByAccessToken", CustomerAuthEntity.class)
@@ -40,7 +54,11 @@ public class CustomerAuthDao {
         }
     }
 
-
+    /**
+     * Updates an existing CustomerAuth entity.
+     * @param customerAuthEntity
+     * @return
+     */
     public CustomerAuthEntity updatedCustomerAuth(CustomerAuthEntity customerAuthEntity){
         entityManager.merge(customerAuthEntity);
         return customerAuthEntity;

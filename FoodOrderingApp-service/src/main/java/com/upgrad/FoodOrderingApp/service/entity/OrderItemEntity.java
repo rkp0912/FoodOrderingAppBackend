@@ -1,10 +1,16 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "order_item")
+@NamedQueries({
+        @NamedQuery(name = "orderItemById" , query = "select o from OrderItemEntity o where o.order.id =:id")
+})
 public class OrderItemEntity {
 
     @Id
@@ -13,8 +19,9 @@ public class OrderItemEntity {
     private Integer id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "order_id")
-    private OrdersEntity orders;
+    private OrderEntity order;
 
     @ManyToOne
     @JoinColumn(name = "item_id")
@@ -36,12 +43,12 @@ public class OrderItemEntity {
         this.id = id;
     }
 
-    public OrdersEntity getOrders() {
-        return orders;
+    public OrderEntity getOrder() {
+        return order;
     }
 
-    public void setOrders(OrdersEntity orders) {
-        this.orders = orders;
+    public void setOrder(OrderEntity order) {
+        this.order = order;
     }
 
     public ItemEntity getItem() {

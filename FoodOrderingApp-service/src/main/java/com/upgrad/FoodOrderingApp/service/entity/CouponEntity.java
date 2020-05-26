@@ -7,6 +7,10 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="coupon")
+@NamedQueries({
+        @NamedQuery(name = "couponByName" , query = "select c from CouponEntity c where c.couponName =:couponName"),
+        @NamedQuery(name = "couponByUUID" , query = "select c from CouponEntity c where c.uuid =:uuid")
+})
 public class CouponEntity implements Serializable {
 
     @Id
@@ -27,6 +31,16 @@ public class CouponEntity implements Serializable {
     @Column(name = "percent")
     @NotNull
     private Integer percent;
+
+
+    public CouponEntity() {
+    }
+
+    public CouponEntity(@NotNull @Size(max = 200) String uuid, @NotNull @Size(max = 255) String couponName, @NotNull Integer percent) {
+        this.uuid = uuid;
+        this.couponName = couponName;
+        this.percent = percent;
+    }
 
     public Integer getId() {
         return id;

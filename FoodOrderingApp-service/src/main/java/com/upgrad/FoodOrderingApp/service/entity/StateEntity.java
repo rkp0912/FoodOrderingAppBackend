@@ -35,6 +35,7 @@ public class StateEntity implements Serializable {
         this.statesName = statesName;
     }
 
+
     public Integer getId() {
         return id;
     }

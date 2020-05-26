@@ -7,6 +7,10 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="payment")
+@NamedQueries({
+        @NamedQuery(name = "paymentByUUID" , query = "select p from PaymentEntity p where p.uuid =:uuid"),
+        @NamedQuery(name = "getAllPaymentEntities" , query = "select p from PaymentEntity p")
+})
 public class PaymentEntity implements Serializable {
 
     @Id
@@ -23,6 +27,14 @@ public class PaymentEntity implements Serializable {
     @NotNull
     @Size(max=255)
     private String paymentName;
+
+    public PaymentEntity() {
+    }
+
+    public PaymentEntity(@NotNull @Size(max = 200) String uuid, @NotNull @Size(max = 255) String paymentName) {
+        this.uuid = uuid;
+        this.paymentName = paymentName;
+    }
 
     public Integer getId() {
         return id;
