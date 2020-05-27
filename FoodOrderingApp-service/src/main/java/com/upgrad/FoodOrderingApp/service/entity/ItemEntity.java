@@ -1,5 +1,6 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
+import com.upgrad.FoodOrderingApp.service.common.ItemType;
 import org.hibernate.validator.constraints.CodePointLength;
 
 import javax.persistence.*;
@@ -10,7 +11,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "item")
 @NamedQueries({
-        @NamedQuery(name = "itemByUUID" , query = "select i from ItemEntity i where i.uuid =:uuid")
+        @NamedQuery(name = "itemByUUID" , query = "select i from ItemEntity i where i.uuid =:uuid"),
+        @NamedQuery(name = "itemById" , query = "select i from ItemEntity i where i.id =:id")
 })
 public class ItemEntity implements Serializable {
 
@@ -36,7 +38,8 @@ public class ItemEntity implements Serializable {
     @Column(name = "type")
     @NotNull
     @Size(max=10)
-    private String type;
+    private ItemType type;
+
 
     public Integer getId() {
         return id;
@@ -70,11 +73,11 @@ public class ItemEntity implements Serializable {
         this.price = price;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 }

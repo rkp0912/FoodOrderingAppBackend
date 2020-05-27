@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "restaurant_item")
+@NamedQueries({
+        @NamedQuery(name = "getRestaurantItemByUUID" , query = "select r from RestaurantItemEntity r where r.restaurant.uuid =:uuid order by r.item.itemName")
+})
 public class RestaurantItemEntity {
 
     @Id

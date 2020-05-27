@@ -145,7 +145,7 @@ public class OrderController {
                 itemQuantityResponseItem.setId(UUID.fromString(orderItem.getItem().getUuid()));
                 itemQuantityResponseItem.setItemName(orderItem.getItem().getItemName());
                 itemQuantityResponseItem.setItemPrice(orderItem.getItem().getPrice());
-                itemQuantityResponseItem.setType(ItemQuantityResponseItem.TypeEnum.fromValue(orderItem.getItem().getType()));
+                itemQuantityResponseItem.setType(ItemQuantityResponseItem.TypeEnum.valueOf(orderItem.getItem().getType().toString()));
 
                 itemQuantityResponse.setItem(itemQuantityResponseItem);
                 itemQuantityResponse.setPrice(orderItem.getPrice());

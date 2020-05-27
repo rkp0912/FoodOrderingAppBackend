@@ -11,7 +11,8 @@ import java.util.Date;
 @Entity
 @Table(name = "orders")
 @NamedQueries({
-        @NamedQuery(name = "getAllOrders" , query = "select o from OrderEntity o where o.customer.uuid =:uuid  order by o.date desc")
+        @NamedQuery(name = "getAllOrders" , query = "select o from OrderEntity o where o.customer.uuid =:uuid  order by o.date desc"),
+        @NamedQuery(name = "getOrdersByRestaurant" , query = "select o from OrderEntity o where o.restaurant.id =:id")
 })
 public class OrderEntity implements Serializable {
 

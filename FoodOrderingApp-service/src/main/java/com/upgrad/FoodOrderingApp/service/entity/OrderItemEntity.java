@@ -9,7 +9,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "order_item")
 @NamedQueries({
-        @NamedQuery(name = "orderItemById" , query = "select o from OrderItemEntity o where o.order.id =:id")
+        @NamedQuery(name = "orderItemById" , query = "select o from OrderItemEntity o where o.order.id =:id"),
+        @NamedQuery(name = "itemsCountByOrder" , query = "select o.item.id  from OrderItemEntity o where o.order.id in :orders group by o.item.id")
 })
 public class OrderItemEntity {
 
