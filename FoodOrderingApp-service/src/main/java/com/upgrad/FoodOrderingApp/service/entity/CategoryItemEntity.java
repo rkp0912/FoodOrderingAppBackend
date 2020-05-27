@@ -4,29 +4,29 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "restaurant_category")
+@Table(name = "category_item")
 @NamedQueries({
-        @NamedQuery(name = "restaurantCategoryById" , query = "select r from RestaurantCategoryEntity r where r.restaurant.id =:id order by r.category.categoryName"),
-        @NamedQuery(name = "restaurantCategoryByCategoryId" , query = "select r from RestaurantCategoryEntity r where r.category.id =:id")
+        @NamedQuery(name = "categoryItemByIdAndCategoryId" , query = "select c from CategoryItemEntity c where c.item.id =:id and c.category.uuid =:categoryUUID"),
+        @NamedQuery(name = "categoryItemByCategoryId" , query = "select c from CategoryItemEntity c where c.category.id =:id")
 })
-public class RestaurantCategoryEntity {
-
+public class CategoryItemEntity implements Serializable {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @OnDelete(action =OnDeleteAction.CASCADE)
-    @JoinColumn(name = "restaurant_id")
-    private RestaurantEntity restaurant;
+    @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "item_id")
+    private ItemEntity item;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
-
 
     public Integer getId() {
         return id;
@@ -36,12 +36,12 @@ public class RestaurantCategoryEntity {
         this.id = id;
     }
 
-    public RestaurantEntity getRestaurant() {
-        return restaurant;
+    public ItemEntity getItem() {
+        return item;
     }
 
-    public void setRestaurant(RestaurantEntity restaurant) {
-        this.restaurant = restaurant;
+    public void setItem(ItemEntity item) {
+        this.item = item;
     }
 
     public CategoryEntity getCategory() {

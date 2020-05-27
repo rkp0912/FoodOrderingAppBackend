@@ -9,7 +9,10 @@ import java.math.BigDecimal;
 @Entity
 @Table(name="restaurant")
 @NamedQueries({
-        @NamedQuery(name = "getRestaurantByUUID" , query = "select r from RestaurantEntity r where r.uuid =:uuid")
+        @NamedQuery(name = "getRestaurantByUUID" , query = "select r from RestaurantEntity r where r.uuid =:uuid"),
+        @NamedQuery(name = "getAllRestaurants" , query = "select r from RestaurantEntity r order by r.customerRating desc"),
+        @NamedQuery(name = "getRestaurantByName" , query = "select r from RestaurantEntity r where r.restaurantName like :restaurantName"),
+        @NamedQuery(name = "getRestaurantById" , query = "select r from RestaurantEntity r where r.id =:id")
 })
 public class RestaurantEntity implements Serializable {
 
@@ -48,6 +51,9 @@ public class RestaurantEntity implements Serializable {
     @OneToOne
     @JoinColumn(name = "address_id")
     private AddressEntity address;
+
+
+
 
     public Integer getId() {
         return id;

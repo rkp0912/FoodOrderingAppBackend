@@ -26,4 +26,19 @@ public class ItemDao {
             return null;
         }
     }
+
+    /**
+     * Fetches the item based on id
+     * @param id
+     * @return
+     */
+    public ItemEntity getItemById(final int id){
+        try {
+            return entityManager.createNamedQuery("itemById", ItemEntity.class).
+                    setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
 }

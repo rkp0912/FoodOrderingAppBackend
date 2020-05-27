@@ -38,4 +38,18 @@ public class OrderDao {
         }
     }
 
+    /**
+     * Fetches the all the orders by restaurant id
+     * @return List<OrderEntity>
+     */
+    public List<OrderEntity> getOrdersByRestaurant(final int  restaurantId){
+        try{
+            return entityManager.createNamedQuery("getOrdersByRestaurant", OrderEntity.class)
+                    .setParameter("id", restaurantId)
+                    .getResultList();
+        }catch (NoResultException nre){
+            return null;
+        }
+    }
+
 }
