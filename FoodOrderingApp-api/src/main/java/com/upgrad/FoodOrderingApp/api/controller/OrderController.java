@@ -77,7 +77,7 @@ public class OrderController {
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, path="/order", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<CustomerOrderResponse> getCoupon(@RequestHeader("authorization") final String accessToken)
+    public ResponseEntity<CustomerOrderResponse> getOrdersByCustomer(@RequestHeader("authorization") final String accessToken)
                                                                 throws AuthorizationFailedException
     {
         String token = "";

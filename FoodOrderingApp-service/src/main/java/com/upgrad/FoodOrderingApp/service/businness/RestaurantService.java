@@ -108,7 +108,7 @@ public class RestaurantService {
     public RestaurantEntity updateRestaurantRating(RestaurantEntity restaurantEntity, Double rating)
             throws InvalidRatingException {
 
-        if(rating < 1 && rating >5){
+        if(rating < 1 || rating >5){
             throw new InvalidRatingException("IRE-001","Restaurant should be in the range of 1 to 5");
         }
 
