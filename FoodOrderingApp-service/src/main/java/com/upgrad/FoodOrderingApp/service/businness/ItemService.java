@@ -65,13 +65,18 @@ public class ItemService {
      public List<ItemEntity> getItemsByPopularity(RestaurantEntity restaurantEntity){
 
         List<OrderEntity> orderEntityList = ordersDao.getOrdersByRestaurant(restaurantEntity.getId());
+        List<ItemEntity> itemEntityList = new ArrayList<>();
+
         List<Integer> orderIdList = new ArrayList<>();
         for (OrderEntity orderEntity : orderEntityList ) {
             int id = orderEntity.getId();
             orderIdList.add(id);
         }
+        //If no orders present for a restaurant return empty list.
+        if(orderIdList.isEmpty())
+            return itemEntityList;
+
         List<Integer> items =  orderItemDao.getItemsCountByOrders(orderIdList);
-        List<ItemEntity> itemEntityList = new ArrayList<>();
         int counter = 0;
         for (Integer itemId : items ) {
             if(counter == 5)

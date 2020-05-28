@@ -5,6 +5,7 @@ import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
 import com.upgrad.FoodOrderingApp.service.businness.ItemService;
 import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
+import com.upgrad.FoodOrderingApp.service.common.ItemType;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
@@ -264,10 +265,7 @@ public class RestaurantController {
                 itemList.setId(UUID.fromString(item.getUuid()));
                 itemList.setItemName(item.getItemName());
                 itemList.setPrice(item.getPrice());
-                if(item.getType().equals("0"))
-                    itemList.setItemType(ItemList.ItemTypeEnum.valueOf("VEG"));
-                if(item.getType().equals("1"))
-                    itemList.setItemType(ItemList.ItemTypeEnum.valueOf("NON_VEG"));
+                itemList.setItemType(ItemList.ItemTypeEnum.valueOf(item.getType().toString()));
                 itemLists.add(itemList);
             }
             categoryList.setItemList(itemLists);
