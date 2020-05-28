@@ -3,6 +3,7 @@ package com.upgrad.FoodOrderingApp.service.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
@@ -27,6 +28,10 @@ public class CategoryEntity {
     @Size(max=255)
     private String categoryName;
 
+    //This field is not to persisted in the DB Table
+    @Transient
+    private List<ItemEntity> items;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +54,13 @@ public class CategoryEntity {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
     }
 }

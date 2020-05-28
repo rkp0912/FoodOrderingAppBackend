@@ -41,37 +41,37 @@ public class CategoryControllerTest {
     private CategoryService mockCategoryService;
 
     //This test case passes when you have are able to fetch any category by its id.
-//    @Test
-//    public void shouldGetCategoryById() throws Exception {
-//        final ItemEntity itemEntity = new ItemEntity();
-//        itemEntity.setItemName("myItem");
-//        itemEntity.setPrice(200);
-//        itemEntity.setType(NON_VEG);
-//        final String itemId = UUID.randomUUID().toString();
-//        itemEntity.setUuid(itemId);
-//
-//        final CategoryEntity categoryEntity = new CategoryEntity();
-//        final String categoryEntityId = UUID.randomUUID().toString();
-//        categoryEntity.setUuid(categoryEntityId);
-//        categoryEntity.setItems(Collections.singletonList(itemEntity));
-//
-//
-//        when(mockCategoryService.getCategoryById("sampleCategoryId")).thenReturn(categoryEntity);
-//
-//        final String response = mockMvc
-//                .perform(get("/category/sampleCategoryId").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//                .andExpect(status().isOk())
-//                .andReturn().getResponse().getContentAsString();
-//
-//        final CategoryDetailsResponse categoryDetailsResponse = new ObjectMapper().readValue(response, CategoryDetailsResponse.class);
-//
-//        assertEquals(categoryDetailsResponse.getId().toString(), categoryEntityId);
-//        assertEquals(categoryDetailsResponse.getItemList().size(), 1);
-//        assertEquals(categoryDetailsResponse.getItemList().get(0).getId().toString(), itemId);
-//        assertEquals(categoryDetailsResponse.getItemList().get(0).getPrice().intValue(), 200);
-//        assertEquals(categoryDetailsResponse.getItemList().get(0).getItemType().toString(), "NON_VEG");
-//        verify(mockCategoryService, times(1)).getCategoryById("sampleCategoryId");
-//    }
+    @Test
+    public void shouldGetCategoryById() throws Exception {
+        final ItemEntity itemEntity = new ItemEntity();
+        itemEntity.setItemName("myItem");
+        itemEntity.setPrice(200);
+        itemEntity.setType(NON_VEG);
+        final String itemId = UUID.randomUUID().toString();
+        itemEntity.setUuid(itemId);
+
+        final CategoryEntity categoryEntity = new CategoryEntity();
+        final String categoryEntityId = UUID.randomUUID().toString();
+        categoryEntity.setUuid(categoryEntityId);
+        categoryEntity.setItems(Collections.singletonList(itemEntity));
+
+
+        when(mockCategoryService.getCategoryById("sampleCategoryId")).thenReturn(categoryEntity);
+
+        final String response = mockMvc
+                .perform(get("/category/sampleCategoryId").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        final CategoryDetailsResponse categoryDetailsResponse = new ObjectMapper().readValue(response, CategoryDetailsResponse.class);
+
+        assertEquals(categoryDetailsResponse.getId().toString(), categoryEntityId);
+        assertEquals(categoryDetailsResponse.getItemList().size(), 1);
+        assertEquals(categoryDetailsResponse.getItemList().get(0).getId().toString(), itemId);
+        assertEquals(categoryDetailsResponse.getItemList().get(0).getPrice().intValue(), 200);
+        assertEquals(categoryDetailsResponse.getItemList().get(0).getItemType().toString(), "NON_VEG");
+        verify(mockCategoryService, times(1)).getCategoryById("sampleCategoryId");
+    }
 
     //This test case passes when you have handled the exception of trying to fetch any category but your category id
     // field is empty.

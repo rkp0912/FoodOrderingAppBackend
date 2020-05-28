@@ -2,9 +2,7 @@ package com.upgrad.FoodOrderingApp.service.businness;
 
 import com.upgrad.FoodOrderingApp.service.dao.CategoryDao;
 import com.upgrad.FoodOrderingApp.service.dao.RestaurantCategoryDao;
-import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
-import com.upgrad.FoodOrderingApp.service.entity.RestaurantCategoryEntity;
-import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
+import com.upgrad.FoodOrderingApp.service.entity.*;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CategoryService {
@@ -24,6 +23,9 @@ public class CategoryService {
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private ItemService itemService;
 
     /**
      * Gets the categories of the restaurant
@@ -49,7 +51,7 @@ public class CategoryService {
     /**
      * Gets the category by UUID
      * @param categoryId
-     * @return
+     * @return CategoryEntity
      * @throws CategoryNotFoundException
      */
     public CategoryEntity getCategoryById(String categoryId) throws CategoryNotFoundException{
@@ -60,12 +62,24 @@ public class CategoryService {
         if(categoryEntity == null){
             throw  new CategoryNotFoundException("CNF-002", "No category by this id");
         }
+        List<CategoryItemEntity> categoryItemEntities =itemService.getItemsOfCategory(categoryEntity.getId());
+        List<ItemEntity> itemEntities = new ArrayList<>();
+        for (CategoryItemEntity categoryItemEntity : categoryItemEntities) {
+            ItemEntity item = new ItemEntity();
+            item.setId(categoryItemEntity.getId());
+            item.setUuid(categoryItemEntity.getItem().getUuid());
+            item.setItemName(categoryItemEntity.getItem().getItemName());
+            item.setPrice(categoryItemEntity.getItem().getPrice());
+            item.setType(categoryItemEntity.getItem().getType());
+            itemEntities.add(item);
+        }
+        categoryEntity.setItems(itemEntities);
         return categoryEntity;
     }
 
     /**
      * Gets all the categories in alphabetical order
-     * @return
+     * @return List<CategoryEntity>
      */
     public List<CategoryEntity> getAllCategoriesOrderedByName(){
         return categoryDao.getAllCategories();
