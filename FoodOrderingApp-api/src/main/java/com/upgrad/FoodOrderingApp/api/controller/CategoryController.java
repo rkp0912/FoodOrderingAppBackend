@@ -6,6 +6,7 @@ import com.upgrad.FoodOrderingApp.service.businness.ItemService;
 import com.upgrad.FoodOrderingApp.service.dao.CategoryDao;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryItemEntity;
+import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.PaymentEntity;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,14 +57,15 @@ public class CategoryController {
     throws CategoryNotFoundException
     {
         CategoryEntity categoryEntity  = categoryService.getCategoryById(categoryId);
-        List<CategoryItemEntity> categoryItemEntities =itemService.getItemsOfCategory(categoryEntity.getId());
         CategoryDetailsResponse categoryDetailsResponse = new CategoryDetailsResponse();
-        for (CategoryItemEntity categoryItemEntity : categoryItemEntities) {
+        categoryDetailsResponse.setId(UUID.fromString(categoryEntity.getUuid().toString()));
+        categoryDetailsResponse.setCategoryName(categoryEntity.getCategoryName());
+        for (ItemEntity item : categoryEntity.getItems()) {
             ItemList itemList = new ItemList();
-            itemList.setId(UUID.fromString(categoryItemEntity.getItem().getUuid().toString()));
-            itemList.setItemName(categoryItemEntity.getItem().getItemName());
-            itemList.setPrice(categoryItemEntity.getItem().getPrice());
-            itemList.setItemType(ItemList.ItemTypeEnum.valueOf(categoryItemEntity.getItem().getType().toString()));
+            itemList.setId(UUID.fromString(item.getUuid().toString()));
+            itemList.setItemName(item.getItemName());
+            itemList.setPrice(item.getPrice());
+            itemList.setItemType(ItemList.ItemTypeEnum.valueOf(item.getType().toString()));
             categoryDetailsResponse.addItemListItem(itemList);
         }
 
