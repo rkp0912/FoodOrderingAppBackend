@@ -41,7 +41,7 @@ public class CustomerAddressDao {
     /**
      * Fetches the customer address entity by addressId
      * @param addressId
-     * @return
+     * @return CustomerAddressEntity
      */
     public CustomerAddressEntity getCustomerAddressByAddressId(Integer addressId){
         try {
@@ -55,7 +55,7 @@ public class CustomerAddressDao {
     /**
      * Updates the existing customer address entity in the table
      * @param customerAddressEntity
-     * @return
+     * @return CustomerAddressEntity
      */
     public CustomerAddressEntity updateCustomerAddress(CustomerAddressEntity customerAddressEntity){
         entityManager.merge(customerAddressEntity);

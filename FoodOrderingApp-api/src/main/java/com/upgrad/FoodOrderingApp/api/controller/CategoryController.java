@@ -3,11 +3,8 @@ package com.upgrad.FoodOrderingApp.api.controller;
 import com.upgrad.FoodOrderingApp.api.model.*;
 import com.upgrad.FoodOrderingApp.service.businness.CategoryService;
 import com.upgrad.FoodOrderingApp.service.businness.ItemService;
-import com.upgrad.FoodOrderingApp.service.dao.CategoryDao;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
-import com.upgrad.FoodOrderingApp.service.entity.CategoryItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
-import com.upgrad.FoodOrderingApp.service.entity.PaymentEntity;
 import com.upgrad.FoodOrderingApp.service.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +33,7 @@ public class CategoryController {
     @RequestMapping(method = RequestMethod.GET, path="/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CategoriesListResponse> getAllCategories()
     {
+        //Get all available categories
         List<CategoryEntity>  categoryEntities = categoryService.getAllCategoriesOrderedByName();
         CategoriesListResponse categoriesListResponse = new CategoriesListResponse();
         for (CategoryEntity category : categoryEntities ) {
@@ -56,7 +54,9 @@ public class CategoryController {
     public ResponseEntity<CategoryDetailsResponse> getCategoryById (@PathVariable("category_id") final String categoryId)
     throws CategoryNotFoundException
     {
+        //Get the category by UUID
         CategoryEntity categoryEntity  = categoryService.getCategoryById(categoryId);
+        //Create response
         CategoryDetailsResponse categoryDetailsResponse = new CategoryDetailsResponse();
         categoryDetailsResponse.setId(UUID.fromString(categoryEntity.getUuid().toString()));
         categoryDetailsResponse.setCategoryName(categoryEntity.getCategoryName());

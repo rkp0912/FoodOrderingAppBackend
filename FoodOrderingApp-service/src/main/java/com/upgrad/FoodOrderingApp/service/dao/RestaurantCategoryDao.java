@@ -18,7 +18,7 @@ public class RestaurantCategoryDao {
     /**
      * Gets RestaurantCategories by restaurant ID.
      * @param id
-     * @return
+     * @return List<RestaurantCategoryEntity>
      */
     public List<RestaurantCategoryEntity> getRestaurantCategoryByRestaurant(final int id){
         try {
@@ -33,7 +33,7 @@ public class RestaurantCategoryDao {
     /**
      * Gets RestaurantCategories by category ID.
      * @param id
-     * @return
+     * @return List<RestaurantCategoryEntity>
      */
     public List<RestaurantCategoryEntity> getRestaurantCategoryByCategory(final int id){
         try {

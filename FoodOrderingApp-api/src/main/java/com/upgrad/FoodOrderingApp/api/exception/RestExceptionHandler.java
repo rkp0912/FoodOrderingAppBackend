@@ -15,7 +15,7 @@ public class RestExceptionHandler {
      * Handlers SignupRestrictedException
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(SignUpRestrictedException.class)
     public ResponseEntity<ErrorResponse> signUpRestrictedException(SignUpRestrictedException exc, WebRequest request){
@@ -41,7 +41,7 @@ public class RestExceptionHandler {
      * Handles AuthorizationFailed Exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(AuthorizationFailedException.class)
     public ResponseEntity<ErrorResponse> authorizationFailedException(AuthorizationFailedException exc, WebRequest request){
@@ -54,7 +54,7 @@ public class RestExceptionHandler {
      * Handles Update Customer exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(UpdateCustomerException.class)
     public ResponseEntity<ErrorResponse> updateCustomerException(UpdateCustomerException exc, WebRequest request){
@@ -67,7 +67,7 @@ public class RestExceptionHandler {
      *Handles Save Address Exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(SaveAddressException.class)
     public ResponseEntity<ErrorResponse> saveAddressException(SaveAddressException exc, WebRequest request){
@@ -80,7 +80,7 @@ public class RestExceptionHandler {
      *Handles Address Not found exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(AddressNotFoundException.class)
     public ResponseEntity<ErrorResponse> addressNotFoundException(AddressNotFoundException exc, WebRequest request){
@@ -93,7 +93,7 @@ public class RestExceptionHandler {
      * Handles Coupon not found exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(CouponNotFoundException.class)
     public ResponseEntity<ErrorResponse> couponNotFoundException(CouponNotFoundException exc, WebRequest request){
@@ -106,7 +106,7 @@ public class RestExceptionHandler {
      * Handles payment method not found exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(PaymentMethodNotFoundException.class)
     public ResponseEntity<ErrorResponse> paymentMethodNotFoundException(PaymentMethodNotFoundException exc, WebRequest request){
@@ -119,7 +119,7 @@ public class RestExceptionHandler {
      * Handles restaurant not found exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(RestaurantNotFoundException.class)
     public ResponseEntity<ErrorResponse> restaurantNotFoundException(RestaurantNotFoundException exc, WebRequest request){
@@ -132,7 +132,7 @@ public class RestExceptionHandler {
      * Handles item not found exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<ErrorResponse> itemNotFoundException(ItemNotFoundException exc, WebRequest request){
@@ -145,7 +145,7 @@ public class RestExceptionHandler {
      * Handles category not found exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<ErrorResponse> categoryNotFoundException(CategoryNotFoundException exc, WebRequest request){
@@ -158,7 +158,7 @@ public class RestExceptionHandler {
      * Handles Invalid rating exception
      * @param exc
      * @param request
-     * @return
+     * @return ErrorResponse JSON
      */
     @ExceptionHandler(InvalidRatingException.class)
     public ResponseEntity<ErrorResponse> invalidRatingException(InvalidRatingException exc, WebRequest request){

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class AddressService {
     /**
      * Gets the states based on UUID of the state
      * @param stateUUID
-     * @return
+     * @return StateEntity
      * @throws AddressNotFoundException
      */
     public StateEntity getStateByUUID(String stateUUID) throws AddressNotFoundException {
@@ -53,7 +52,7 @@ public class AddressService {
      * This method saves the address into address table also saves customer and address relationship in the customer_address table.
      * @param customer
      * @param address
-     * @return
+     * @return AddressEntity
      * @throws SaveAddressException
      * @throws AuthorizationFailedException
      */
@@ -84,7 +83,7 @@ public class AddressService {
     /**
      * Gets list of  all the address for the given customer
      * @param customerEntity
-     * @return
+     * @return List<AddressEntity>
      * @throws AuthorizationFailedException
      */
     public List<AddressEntity> getAllAddress(CustomerEntity customerEntity) throws AuthorizationFailedException{
@@ -105,7 +104,7 @@ public class AddressService {
      * Gets the address of based on UUID if the address belongs to the user.
      * @param addressUUID
      * @param customerEntity
-     * @return
+     * @return AddressEntity
      * @throws AddressNotFoundException
      * @throws AuthorizationFailedException
      */
@@ -142,7 +141,7 @@ public class AddressService {
 
     /**
      * Gets the list of all states.
-     * @return
+     * @return List<StateEntity>
      */
     public List<StateEntity> getAllStates(){
        return stateDao.getAllStates();

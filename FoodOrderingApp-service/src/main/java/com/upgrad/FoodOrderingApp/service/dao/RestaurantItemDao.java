@@ -18,7 +18,7 @@ public class RestaurantItemDao {
     /**
      * Fetches RestaurantItems by restaurant UUID
      * @param restaurantUUID
-     * @return
+     * @return List<RestaurantItemEntity>
      */
     public List<RestaurantItemEntity> getRestaurantItemByUUID(final String restaurantUUID){
         try {

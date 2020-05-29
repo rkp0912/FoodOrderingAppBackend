@@ -15,7 +15,7 @@ public class ItemDao {
     /**
      * Fetches the item based on UUID
      * @param UUID
-     * @return
+     * @return ItemEntity
      */
     public ItemEntity getItemByUUID(final String UUID){
         try {
@@ -30,7 +30,7 @@ public class ItemDao {
     /**
      * Fetches the item based on id
      * @param id
-     * @return
+     * @return ItemEntity
      */
     public ItemEntity getItemById(final int id){
         try {

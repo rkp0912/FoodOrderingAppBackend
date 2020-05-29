@@ -2,11 +2,9 @@ package com.upgrad.FoodOrderingApp.service.businness;
 
 import com.upgrad.FoodOrderingApp.service.dao.*;
 import com.upgrad.FoodOrderingApp.service.entity.*;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.jws.Oneway;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class ItemService {
      * Gets the items by category and restaurant.
      * @param restaurantUUID
      * @param categoryUUID
-     * @return
+     * @return List<ItemEntity>
      */
      public List<ItemEntity> getItemsByCategoryAndRestaurant(String restaurantUUID, String categoryUUID){
         List<RestaurantItemEntity> restaurantItemEntityList = restaurantItemDao.getRestaurantItemByUUID(restaurantUUID);
@@ -60,7 +58,7 @@ public class ItemService {
     /**
      * Gets to 5 items ordered the most from a restaurant
      * @param restaurantEntity
-     * @return
+     * @return List<ItemEntity>
      */
      public List<ItemEntity> getItemsByPopularity(RestaurantEntity restaurantEntity){
 
@@ -76,6 +74,7 @@ public class ItemService {
         if(orderIdList.isEmpty())
             return itemEntityList;
 
+        //Get only top 5 items of a restaurant
         List<Integer> items =  orderItemDao.getItemsCountByOrders(orderIdList);
         int counter = 0;
         for (Integer itemId : items ) {
@@ -97,7 +96,7 @@ public class ItemService {
     /**
      * Gets the CategoryItemLists based on category ID
      * @param categoryId
-     * @return
+     * @return List<CategoryItemEntity>
      */
      public List<CategoryItemEntity> getItemsOfCategory(int categoryId){
          return categoryItemDao.getCategoryItemsCategoryId(categoryId);
