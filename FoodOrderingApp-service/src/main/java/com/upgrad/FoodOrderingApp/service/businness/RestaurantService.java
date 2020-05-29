@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class RestaurantService {
     /**
      * Gets the restaurant by UUID
      * @param restaurantId
-     * @return
+     * @return RestaurantEntity
      * @throws RestaurantNotFoundException
      */
     public RestaurantEntity restaurantByUUID(String restaurantId) throws RestaurantNotFoundException{
@@ -73,7 +71,7 @@ public class RestaurantService {
     /**
      * Gets the RestaurantByCategory by Category
      * @param categoryId
-     * @return
+     * @return List<RestaurantEntity>
      * @throws CategoryNotFoundException
      */
     public List<RestaurantEntity> restaurantByCategory(String categoryId) throws CategoryNotFoundException {
@@ -101,7 +99,7 @@ public class RestaurantService {
      * Update the number of customer rated and average rating of a restaurant.
      * @param restaurantEntity
      * @param rating
-     * @return
+     * @return RestaurantEntity
      * @throws InvalidRatingException
      */
     @Transactional(propagation = Propagation.REQUIRED)
@@ -118,6 +116,7 @@ public class RestaurantService {
         restaurantEntity.setNumberCustomersRated(restaurantEntity.getNumberCustomersRated() + 1);
         //New Average rating
         Double newAvgRating = (sumOfUpdatedRating / restaurantEntity.getNumberCustomersRated());
+        // only 2 decimal
         restaurantEntity.setCustomerRating(Math.round(newAvgRating * 100.0)/100.0);
         RestaurantEntity updatedRestaurantEntity = restaurantDao.updateRestaurantInfo(restaurantEntity);
         return updatedRestaurantEntity;

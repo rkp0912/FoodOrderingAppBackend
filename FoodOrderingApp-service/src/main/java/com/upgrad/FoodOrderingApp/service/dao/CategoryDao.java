@@ -18,7 +18,7 @@ public class CategoryDao {
     /**
      * Fetches all the categories by UUID
      * @param UUID
-     * @return
+     * @return CategoryEntity
      */
     public CategoryEntity getCategoryByUUID(final String UUID){
         try{
@@ -32,7 +32,7 @@ public class CategoryDao {
 
     /**
      * Fetches all the categories in alphabetical order
-     * @return
+     * @return  List<CategoryEntity>
      */
     public List<CategoryEntity> getAllCategories(){
         try{

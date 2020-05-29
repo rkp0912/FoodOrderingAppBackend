@@ -51,7 +51,7 @@ public class OrderService {
 
     /**
      * Fetches all the orders of a customer in the table
-     * @return
+     * @return List<OrderEntity>
      */
     public List<OrderEntity> getOrdersByCustomers(String customerid){
         return orderDao.getOrdersByCustomer(customerid);
@@ -69,7 +69,7 @@ public class OrderService {
     /**
      * Returns the order coupon based on UUID
      * @param couponId
-     * @return
+     * @return CouponEntity
      * @throws CouponNotFoundException
      */
     public CouponEntity getCouponByCouponId(String couponId) throws CouponNotFoundException{
@@ -83,7 +83,7 @@ public class OrderService {
     /**
      * Gets the Item based on UUID
      * @param itemId
-     * @return
+     * @return ItemEntity
      * @throws ItemNotFoundException
      */
     public ItemEntity getItemById(String itemId) throws ItemNotFoundException{
@@ -97,7 +97,7 @@ public class OrderService {
     /**
      * Persists the order in order table
      * @param order
-     * @return
+     * @return OrderEntity
      * @throws AuthorizationFailedException
      */
     @Transactional(propagation =  Propagation.REQUIRED)
@@ -109,7 +109,7 @@ public class OrderService {
     /**
      * Saves orderitem to the orderitem table
      * @param orderItem
-     * @return
+     * @return OrderItemEntity
      */
     @Transactional(propagation =  Propagation.REQUIRED)
     public OrderItemEntity saveOrderItem(OrderItemEntity orderItem){

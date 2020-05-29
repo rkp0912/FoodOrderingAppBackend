@@ -15,7 +15,7 @@ public class AddressDao {
     /**
      * Saves new address entity to the address table
      * @param addressEntity
-     * @return
+     * @return AddressEntity
      */
     public AddressEntity saveAddress(final AddressEntity addressEntity){
         entityManager.persist(addressEntity);
@@ -25,7 +25,7 @@ public class AddressDao {
     /**
      * Fetches the address based on the address Id
      * @param id
-     * @return
+     * @return AddressEntity
      */
     public AddressEntity getAddressById(final int id){
         try{
@@ -40,7 +40,7 @@ public class AddressDao {
     /**
      * Fetches the address by UUID
      * @param UUID
-     * @return
+     * @return AddressEntity
      */
     public AddressEntity getAddressByUUID(final String UUID){
         try{
@@ -56,7 +56,7 @@ public class AddressDao {
     /**
      * Update the address of the existing row
      * @param addressEntity
-     * @return
+     * @return AddressEntity
      */
     public AddressEntity updateAddress(final AddressEntity addressEntity){
         entityManager.merge(addressEntity);

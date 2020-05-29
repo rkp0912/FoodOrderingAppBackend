@@ -1,6 +1,5 @@
 package com.upgrad.FoodOrderingApp.service.dao;
 
-import com.upgrad.FoodOrderingApp.service.entity.OrderItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.PaymentEntity;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +16,7 @@ public class PaymentDao {
     /**
      * Fetches the payment details based on UUID
      * @param UUID
-     * @return
+     * @return PaymentEntity
      */
     public PaymentEntity getPaymentEntityByUUID(final String UUID){
         try {
@@ -31,7 +30,7 @@ public class PaymentDao {
 
     /**
      * Fetches all the payment methods available
-     * @return
+     * @return List<PaymentEntity>
      */
     public List<PaymentEntity> getAllPaymentEntities(){
         try {

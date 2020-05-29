@@ -49,7 +49,6 @@ public class CustomerService {
         }
 
         // check of email syntax is valid
-//        String emailRegex = "^(.+)@(.+)(.+)$";
         String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,3}$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(customerEntity.getEmail());
@@ -172,10 +171,6 @@ public class CustomerService {
                 customerAuthDao.getCustomerAuthByAccessToken(accessToken);
         return customerAuthEntity;
     }
-
-
-
-
 
     /**
      * Update Customer

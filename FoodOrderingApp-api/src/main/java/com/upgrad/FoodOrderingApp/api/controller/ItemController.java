@@ -3,7 +3,6 @@ package com.upgrad.FoodOrderingApp.api.controller;
 import com.upgrad.FoodOrderingApp.api.model.*;
 import com.upgrad.FoodOrderingApp.service.businness.ItemService;
 import com.upgrad.FoodOrderingApp.service.businness.RestaurantService;
-import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
 import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.RestaurantEntity;
 import com.upgrad.FoodOrderingApp.service.exception.RestaurantNotFoundException;
@@ -13,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,15 +28,18 @@ public class ItemController {
     /**
      * Handles the Getting the items by popularity in a restaurant
      * @param restaurantId
-     * @return
+     * @return ItemListResponse JSON
      * @throws RestaurantNotFoundException
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, path="/item/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ItemListResponse> getItemsByPopularity(@PathVariable("restaurant_id") final String restaurantId) throws RestaurantNotFoundException
     {
+        // Gets the restaurant by UUID
         RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(restaurantId);
+        //Get items by no of times the item is ordered from restaurant
         List<ItemEntity> itemEntities = itemService.getItemsByPopularity(restaurantEntity);
+        //Create response item list
         ItemListResponse itemListResponse = new ItemListResponse();
         for (ItemEntity itemEntity : itemEntities) {
             ItemList itemList = new ItemList();

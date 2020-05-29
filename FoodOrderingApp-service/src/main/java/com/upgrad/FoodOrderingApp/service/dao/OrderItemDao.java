@@ -1,14 +1,11 @@
 package com.upgrad.FoodOrderingApp.service.dao;
 
-import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
-import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import com.upgrad.FoodOrderingApp.service.entity.OrderItemEntity;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -45,7 +42,7 @@ public class OrderItemDao {
     /**
      * Fetches the item id's in the order of max times ordered.
      * @param orderList
-     * @return
+     * @return List<Integer>
      */
     public List<Integer> getItemsCountByOrders(final List<Integer> orderList ){
         try {

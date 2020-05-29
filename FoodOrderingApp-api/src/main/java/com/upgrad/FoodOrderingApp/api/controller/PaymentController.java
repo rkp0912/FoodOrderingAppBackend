@@ -28,8 +28,8 @@ public class PaymentController {
     @RequestMapping(method = RequestMethod.GET, path="/payment", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<PaymentListResponse> getCoupon()
     {
+        //Get the list of payment methods availale
         List<PaymentEntity> paymentEntityList = paymentService.getAllPaymentMethods();
-
 
         PaymentListResponse paymentListResponse = new PaymentListResponse();
         for (PaymentEntity paymentEntity : paymentEntityList) {

@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.security.ssl.Debug;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -37,7 +36,7 @@ public class CustomerController {
     @RequestMapping(method = RequestMethod.POST, path="/customer/signup", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupCustomerResponse> signup(@RequestBody(required = false) final SignupCustomerRequest signupCustomerRequest)throws SignUpRestrictedException
     {
-
+        //Validate all the mandatory attributes are present
         if( signupCustomerRequest.getFirstName() == null || signupCustomerRequest.getFirstName().equals("") ||
                 signupCustomerRequest.getContactNumber() == null || signupCustomerRequest.getContactNumber().equals("") ||
                 signupCustomerRequest.getEmailAddress() == null || signupCustomerRequest.getEmailAddress().equals("") ||
@@ -46,6 +45,7 @@ public class CustomerController {
             throw new SignUpRestrictedException("SGR-005", "Except last name all fields should be filled.");
         }
 
+        //Create customer entity to save
         final CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setUuid(UUID.randomUUID().toString());
         customerEntity.setFirstName(signupCustomerRequest.getFirstName());
@@ -76,6 +76,7 @@ public class CustomerController {
     @RequestMapping(method = RequestMethod.POST, path="/customer/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LoginResponse> login(@RequestHeader("authorization")  final String authorization )throws AuthenticationFailedException
     {
+        // extract encoded username:password and cannot be empty
         byte[] decode = {};
         String[] decodedArray = {};
         try{
@@ -89,9 +90,9 @@ public class CustomerController {
         if(decodedArray.length == 0)
             throw new AuthenticationFailedException("ATH-003", "Incorrect format of decoded customer name and password");
 
+        //Authenticate user and password is valid, issue access-token
         CustomerAuthEntity customerAuthEntity = customerService.authenticate(decodedArray[0], decodedArray[1]);
         CustomerEntity customer =  customerAuthEntity.getCustomer();
-
 
         LoginResponse loginResponse =  new LoginResponse().id(customer.getUuid())
                 .firstName(customer.getFirstName())
@@ -119,8 +120,15 @@ public class CustomerController {
     @RequestMapping(method = RequestMethod.POST, path="/customer/logout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<LogoutResponse> logout(@RequestHeader("authorization")  final String accessToken )throws AuthorizationFailedException
     {
-        CustomerAuthEntity customerAuthEntity = customerService.logout(accessToken.split("Bearer ")[1]);
-
+        //Extract token
+        String token = "";
+        try{
+            token = accessToken.split("Bearer ")[1];
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        // Validate token is valid and logout.
+        CustomerAuthEntity customerAuthEntity = customerService.logout(token);
         LogoutResponse logoutResponse = new LogoutResponse().id(customerAuthEntity.getCustomer().getUuid())
                 .message("LOGGED OUT SUCCESSFULLY");
 
@@ -175,6 +183,7 @@ public class CustomerController {
     public ResponseEntity<UpdatePasswordResponse> changePassword(@RequestHeader("authorization") final String accessToken,
                                                          @RequestBody final UpdatePasswordRequest updatePasswordRequest)throws UpdateCustomerException, AuthorizationFailedException
     {
+        //Extract token
         String token = "";
         try{
             token = accessToken.split("Bearer ")[1];
@@ -182,11 +191,14 @@ public class CustomerController {
             System.out.println(ex.getMessage());
         }
 
+        //Validate if all the mandatory fields are present in the request
         if(updatePasswordRequest.getNewPassword() == null || updatePasswordRequest.getOldPassword() == null ||
             updatePasswordRequest.getNewPassword() == "" || updatePasswordRequest.getOldPassword() == "")
             throw new UpdateCustomerException("UCR-003","No field should be empty");
 
+        // validate token
         CustomerEntity customerEntity = customerService.getCustomer(token);
+        //Update password, if new password meets the criteria
         CustomerEntity updatedCustomerPassword = customerService.updateCustomerPassword(updatePasswordRequest.getOldPassword(),
                 updatePasswordRequest.getNewPassword(), customerEntity);
         UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse().id(updatedCustomerPassword.getUuid())

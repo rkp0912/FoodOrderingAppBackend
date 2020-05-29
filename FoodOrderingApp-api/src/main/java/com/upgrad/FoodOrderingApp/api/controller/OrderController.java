@@ -11,10 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,13 +49,16 @@ public class OrderController {
                                                            @RequestHeader("authorization") final String accessToken)throws
             AuthorizationFailedException, CouponNotFoundException
     {
+        //Extract token
         String token = "";
         try{
             token = accessToken.split("Bearer ")[1];
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+        //Validate token
         CustomerEntity customerEntity = customerService.getCustomer(token);
+        //Get the coupon by name
         CouponEntity coupon = orderService.getCouponByCouponName(couponName);
 
         CouponDetailsResponse couponDetailsResponse = new CouponDetailsResponse().id(UUID.fromString(coupon.getUuid()))
@@ -72,7 +71,7 @@ public class OrderController {
     /**
      * Handles the orders, fetches list of orders placed by customer.
      * @param accessToken
-     * @return
+     * @return CustomerOrderResponse JSON
      * @throws AuthorizationFailedException
      */
     @ResponseBody
@@ -80,19 +79,20 @@ public class OrderController {
     public ResponseEntity<CustomerOrderResponse> getOrdersByCustomer(@RequestHeader("authorization") final String accessToken)
                                                                 throws AuthorizationFailedException
     {
+        //Extract token
         String token = "";
         try{
             token = accessToken.split("Bearer ")[1];
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+        //Validate token
         CustomerEntity customerEntity = customerService.getCustomer(token);
+        //Get the customer information from token and retrieve orders placed by customer
         String customerId = customerEntity.getUuid();
         List<OrderEntity> ordersEntityList = orderService.getOrdersByCustomers(customerId);
 
-
         CustomerOrderResponse customerOrderResponse = new CustomerOrderResponse();
-
         for (OrderEntity order : ordersEntityList) {
             OrderList orderList = new OrderList();
 
@@ -133,7 +133,6 @@ public class OrderController {
             orderListAddressState.setStateName(order.getAddress().getState().getStatesName());
             orderListAddress.setState(orderListAddressState);
             orderList.setAddress(orderListAddress);
-
 
             List<OrderItemEntity> orderItemEntityList = orderService.getOrderItemByOrder(order);
             List<ItemQuantityResponse> itemQuantityResponseList = new ArrayList<ItemQuantityResponse>();
@@ -180,18 +179,24 @@ public class OrderController {
                                                AddressNotFoundException, RestaurantNotFoundException,
                                                CouponNotFoundException, ItemNotFoundException
     {
+        //Extract token
         String token = "";
         try{
             token = accessToken.split("Bearer ")[1];
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+        //Validate token
         CustomerEntity customerEntity = customerService.getCustomer(token);
+        //get coupon id
         CouponEntity couponEntity = orderService.getCouponByCouponId(saveOrderRequest.getCouponId().toString());
+        //get payment type
         PaymentEntity paymentEntity = paymentService.getPaymentByUUID(saveOrderRequest.getPaymentId().toString());
+        //get address
         AddressEntity addressEntity = addressService.getAddressByUUID(saveOrderRequest.getAddressId(), customerEntity);
+        //get restaurant
         RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(saveOrderRequest.getRestaurantId().toString());
-
+        //Create order entity instance
         OrderEntity saveOrderEntity = new OrderEntity();
         final String orderId = UUID.randomUUID().toString();
         saveOrderEntity.setUuid(orderId);
@@ -204,7 +209,7 @@ public class OrderController {
         saveOrderEntity.setCustomer(customerEntity);
         saveOrderEntity.setAddress(addressEntity);
         saveOrderEntity.setRestaurant(restaurantEntity);
-
+        //Save order
         OrderEntity orderEntity = orderService.saveOrder(saveOrderEntity);
 
          for (ItemQuantity item : saveOrderRequest.getItemQuantities()) {

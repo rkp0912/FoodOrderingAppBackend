@@ -33,7 +33,7 @@ public class AddressController {
      * Handles adding address to the customer.
      * @param accessToken
      * @param saveAddressRequest
-     * @return
+     * @return SaveAddressResponse JSON
      * @throws AuthorizationFailedException
      * @throws AddressNotFoundException
      * @throws SaveAddressException
@@ -44,18 +44,18 @@ public class AddressController {
                                    @RequestBody(required = false)  final SaveAddressRequest saveAddressRequest)throws
                             AuthorizationFailedException, AddressNotFoundException, SaveAddressException
     {
-
+        //Extract token
         String token = "";
         try{
             token = accessToken.split("Bearer ")[1];
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
-
+        //Validate customer
         CustomerEntity customerEntity = customerService.getCustomer(token);
-
+        //Fetches state
         StateEntity customerState = addressService.getStateByUUID(saveAddressRequest.getStateUuid());
-
+        // Creates address entity
         final AddressEntity customerAddress = new AddressEntity();
         customerAddress.setUuid(UUID.randomUUID().toString());
         customerAddress.setFlatBuilNo(saveAddressRequest.getFlatBuildingName());
@@ -64,7 +64,7 @@ public class AddressController {
         customerAddress.setPincode(saveAddressRequest.getPincode());
         customerAddress.setState(customerState);
         customerAddress.setActive(1);
-
+        //Save address to DB
         final AddressEntity savedAddress = addressService.saveAddress(customerEntity, customerAddress);
 
         SaveAddressResponse saveAddressResponse = new SaveAddressResponse()
@@ -77,7 +77,7 @@ public class AddressController {
     /**
      * Handles the /address/customer and gets list of all addresses
      * @param accessToken
-     * @return
+     * @return AddressListResponse JSON
      * @throws AuthorizationFailedException
      * @throws AddressNotFoundException
      * @throws SaveAddressException
@@ -87,14 +87,18 @@ public class AddressController {
     public ResponseEntity<AddressListResponse> getSavedAddresses(@RequestHeader("authorization")  final String accessToken)throws
                                                     AuthorizationFailedException, AddressNotFoundException, SaveAddressException
     {
+        //Extract token
         String token = "";
         try{
             token = accessToken.split("Bearer ")[1];
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+        //Validate customer
         CustomerEntity customerEntity = customerService.getCustomer(token);
+        //Get address belongs to customer
         List<AddressEntity> addressEntityList = addressService.getAllAddress(customerEntity);
+        //Create response
         AddressListResponse addressListResponse = new AddressListResponse();
         for (AddressEntity address : addressEntityList ) {
             AddressList addressList = new AddressList();
@@ -119,7 +123,7 @@ public class AddressController {
      * Handles the deletion of address based on UUID
      * @param addressUUID
      * @param accessToken
-     * @return
+     * @return DeleteAddressResponse JSON
      * @throws AuthorizationFailedException
      * @throws AddressNotFoundException
      */
@@ -129,14 +133,18 @@ public class AddressController {
                                             @RequestHeader("authorization")  final String accessToken)throws
                                             AuthorizationFailedException, AddressNotFoundException
     {
+        //Extract token
         String token = "";
         try{
             token = accessToken.split("Bearer ")[1];
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+        //Validate customer
         CustomerEntity customerEntity = customerService.getCustomer(token);
+        // Check for address by UUID
         AddressEntity  addressEntity = addressService.getAddressByUUID(addressUUID, customerEntity);
+        //Delete address
         AddressEntity deletedAddress = addressService.deleteAddress(addressEntity);
 
         DeleteAddressResponse deleteAddressResponse = new DeleteAddressResponse()
@@ -148,12 +156,13 @@ public class AddressController {
 
     /**
      * Handles the Get States request.
-     * @return
+     * @return StatesListResponse JSON
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, path="/states", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<StatesListResponse> getStates()
     {
+        //Get the list of states in DB
          List<StateEntity> stateEntityList =  addressService.getAllStates();
          StatesListResponse statesListResponse = new StatesListResponse();
          for (StateEntity state : stateEntityList ) {

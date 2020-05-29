@@ -16,7 +16,7 @@ public class CouponDao {
     /**
      * Fetches the coupon details based on coupon name
      * @param couponName
-     * @return
+     * @return CouponEntity
      */
     public CouponEntity getCouponByName(final String couponName){
         try{
@@ -31,7 +31,7 @@ public class CouponDao {
     /**
      * Fetches the coupon details based on coupon UUID
      * @param UUID
-     * @return
+     * @return CouponEntity
      */
     public CouponEntity getCouponByUUID(final String UUID){
         try{

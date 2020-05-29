@@ -75,7 +75,7 @@ public class RestaurantDao {
     /**
      * Updates an existing restaurant entity to restaurant table
      * @param restaurantEntity
-     * @return
+     * @return RestaurantEntity
      */
     public RestaurantEntity updateRestaurantInfo(final RestaurantEntity restaurantEntity){
         entityManager.merge(restaurantEntity);

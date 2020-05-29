@@ -1,16 +1,11 @@
 package com.upgrad.FoodOrderingApp.service.dao;
 
 import com.upgrad.FoodOrderingApp.service.entity.CategoryItemEntity;
-import com.upgrad.FoodOrderingApp.service.entity.CouponEntity;
-import com.upgrad.FoodOrderingApp.service.entity.ItemEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PutMapping;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.swing.plaf.PanelUI;
 import java.util.List;
 
 @Repository
@@ -22,7 +17,7 @@ public class CategoryItemDao {
      * Fetches the CategoryItem using itemId and category UUID.
      * @param itemId
      * @param categoryUUID
-     * @return
+     * @return CategoryItemEntity
      */
     public CategoryItemEntity getItemByItemIdAndCategoryUUID(final int itemId, final String categoryUUID){
         try{
@@ -38,7 +33,7 @@ public class CategoryItemDao {
     /**
      * Fetches the CategoryItems by category Id.
      * @param categoryId
-     * @return
+     * @return List<CategoryItemEntity>
      */
     public List<CategoryItemEntity> getCategoryItemsCategoryId(final int categoryId){
         try{
