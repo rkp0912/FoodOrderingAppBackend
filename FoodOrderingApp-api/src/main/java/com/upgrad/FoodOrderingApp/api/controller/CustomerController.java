@@ -201,6 +201,10 @@ public class CustomerController {
         //Update password, if new password meets the criteria
         CustomerEntity updatedCustomerPassword = customerService.updateCustomerPassword(updatePasswordRequest.getOldPassword(),
                 updatePasswordRequest.getNewPassword(), customerEntity);
+        // If password is updated successfully, logout the user
+        if(updatedCustomerPassword != null)
+            customerService.logout(token);
+
         UpdatePasswordResponse updatePasswordResponse = new UpdatePasswordResponse().id(updatedCustomerPassword.getUuid())
                 .status("CUSTOMER PASSWORD UPDATED SUCCESSFULLY");
 
